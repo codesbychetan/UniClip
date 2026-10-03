@@ -1,0 +1,159 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>UniClip — Sync Clipboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">U</span>
+          <div>
+            <strong>UniClip</strong>
+          </div>
+        </div>
+        <div class="status-pill">
+          <span id="statusDot" class="dot offline">
+          </span>
+          <span id="statusText">Disconnected</span>
+        </div>
+      </header>
+      <main>
+        <section id="landing" class="hero screen">
+          <div class="hero-copy">
+            <span class="eyebrow">NO ACCOUNT · REAL-TIME · E2E ENCRYPTED</span>
+            <h1>Copy here.<br>
+              <span>Paste anywhere.</span>
+            </h1>
+            <p>Move text and links between your phone, laptop, tablet, and desktop in seconds.</p>
+          </div>
+          <div class="card setup-card">
+            <label for="deviceName">Device name</label>
+            <input id="deviceName" maxlength="32" placeholder="e.g. Chetan's Laptop" />
+            <div class="actions">
+              <button id="createBtn" class="primary">Create session <span>→</span>
+              </button>
+            </div>
+            <div class="divider">
+              <span>or</span>
+            </div>
+            <label for="joinCode">Have a pairing code?</label>
+            <div class="join-row">
+              <input id="joinCode" maxlength="6" placeholder="ABC123" autocomplete="off" />
+              <button id="joinBtn" class="secondary">Join</button>
+            </div>
+            <p class="hint">Your clipboard content is encrypted in your browser before it reaches the server.</p>
+            <div id="landingError" class="error hidden">
+            </div>
+          </div>
+        </section>
+        <section id="workspace" class="workspace screen hidden">
+          <div class="workspace-head">
+            <div>
+              <div class="session-label">SESSION</div>
+              <div class="code-row">
+                <span id="sessionCode">------</span>
+                <button id="copyCodeBtn" class="icon-btn" title="Copy code">⧉</button>
+                <button id="qrBtn" class="icon-btn" title="Show QR">QR</button>
+              </div>
+              <div class="subtext">Share the code or QR with another device.</div>
+            </div>
+            <button id="leaveBtn" class="ghost">Leave session</button>
+          </div>
+          <div class="grid">
+            <aside class="sidebar">
+              <div class="card sync-card">
+                <div class="card-title-row">
+                  <h2>Clipboard</h2>
+                  <span class="lock">🔒</span>
+                </div>
+                <p>Copy something on this device, then sync it to every connected device.</p>
+                <button id="syncBtn" class="sync-button">
+                  <span class="sync-icon">↻</span>
+                  <span>
+                    <b>Sync Clipboard</b>
+                    <small>Read current clipboard</small>
+                  </span>
+                </button>
+                <label class="toggle-row">
+                  <input id="burnToggle" type="checkbox" />
+                  <span class="toggle">
+                  </span>
+                  <span>
+                    <b>Burn after sync</b>
+                    <small>Remove item after another device receives it</small>
+                  </span>
+                </label>
+                <div id="syncMessage" class="message hidden">
+                </div>
+              </div>
+              <div class="card devices-card">
+                <div class="card-title-row">
+                  <h2>Connected devices</h2>
+                  <span id="deviceCount">0</span>
+                </div>
+                <div id="devicesList" class="devices-list">
+                </div>
+              </div>
+              <div class="card security-card">
+                <div class="security-icon">✓</div>
+                <div>
+                  <b>End-to-end encrypted</b>
+                  <p>The server relays encrypted payloads and cannot read your clipboard text.</p>
+                </div>
+              </div>
+            </aside>
+            <section class="history-panel">
+              <div class="history-head">
+                <div>
+                  <h2>Clipboard history</h2>
+                  <p id="historySubtitle">Newest items appear here in real time.</p>
+                </div>
+                <button id="clearBtn" class="danger-text">Clear all</button>
+              </div>
+              <div id="historyList" class="history-list">
+              </div>
+              <div id="emptyState" class="empty">
+                <div class="empty-icon">⌁</div>
+                <h3>Nothing synced yet</h3>
+                <p>Copy text or a link, then press <b>Sync Clipboard</b>.</p>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div id="qrModal" class="modal hidden">
+      <div class="modal-backdrop">
+      </div>
+      <div class="modal-card">
+        <button id="closeQr" class="modal-close">×</button>
+        <h2>Scan to join</h2>
+        <p>Scan this QR code on another device.</p>
+        <div id="qrCanvas">
+        </div>
+        <strong id="qrCodeText">
+        </strong>
+        <button id="shareBtn" class="secondary full">Share pairing link</button>
+      </div>
+    </div>
+    <div id="toast" class="toast">
+    </div>
+    <!-- Socket.IO and client files are loaded in dependency order. -->
+    <script src="/socket.io/socket.io.js">
+    </script>
+    <script src="/js/state.js">
+    </script>
+    <script src="/js/ui.js">
+    </script>
+    <script src="/js/crypto.js">
+    </script>
+    <script src="/js/main.js">
+    </script>
+  </body>
+</html>
