@@ -1,7 +1,4 @@
-// Shared client state and Socket.IO connection.
-// The values here are used by the other client files.
-// Keeping this separate makes the main file easier to read.
-const socket = io({
+const socket = io('https://uniclip-backend.onrender.com',{
   autoConnect: true,
   reconnection: true,
   reconnectionAttempts: Infinity,
