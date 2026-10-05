@@ -45,11 +45,13 @@ async function startSession(mode) {
       state.key = null;
       $('sessionCode').textContent = res.code;
       showWorkspace();
+
       history.pushState(
         { uniclipSession: true },
         '',
         location.pathname
       );
+
       toast(
         mode === 'create'
           ? 'Session created'
@@ -87,7 +89,7 @@ function leaveSession() {
 
 $('leaveBtn').onclick = () => history.back();
 
-window\.addEventListener('popstate', () => {
+window.addEventListener('popstate', () => {
   if (!$('workspace').classList.contains('hidden')) {
     leaveSession();
   }
@@ -109,7 +111,7 @@ socket.on('connect', () => {
       },
       res => {
         if (!res?.ok) {
-          toast('Session expired — please create a new session');
+          toast('Session expired - please create a new session');
           state.code = null;
         }
       }
@@ -140,7 +142,7 @@ socket.on('clip:add', async item => {
     await renderHistory();
 
     if (item.deviceId !== state.deviceId) {
-      toast(\`New ${item.type} synced\`);
+      toast(`New ${item.type} synced`);
     }
   }
 });
@@ -159,18 +161,18 @@ function renderDevices(devices) {
   $('deviceCount').textContent = devices.length;
 
   $('devicesList').innerHTML = devices
-    .map(d => \`
-      \<div class="device">
-        \<span class="device-avatar">
+    .map(d => `
+      <div class="device">
+        <span class="device-avatar">
           ${escapeHtml(d.name.slice(0, 1).toUpperCase())}
-        \</span>
-        \<span>${escapeHtml(d.name)}\</span>
+        </span>
+        <span>${escapeHtml(d.name)}</span>
         ${d.id === state.deviceId
-          ? '\<span class="you">YOU\</span>'
+          ? '<span class="you">YOU</span>'
           : ''}
-      \</div>
-    \`)
-    .join('') || '\<div class="subtext">No devices connected.\</div>';
+      </div>
+    `)
+    .join('') || '<div class="subtext">No devices connected.</div>';
 }
 
 async function renderHistory() {
@@ -178,7 +180,7 @@ async function renderHistory() {
     .sort((a, b) => b.createdAt - a.createdAt);
 
   $('historySubtitle').textContent =
-    \`${list.length} item${list.length === 1 ? '' : 's'} · updates appear instantly\`;
+    `${list.length} item${list.length === 1 ? '' : 's'} · updates appear instantly`;
 
   $('emptyState').classList.toggle('hidden', list.length > 0);
 
@@ -187,30 +189,33 @@ async function renderHistory() {
   for (const item of list) {
     const text = await decryptItem(item);
 
-    html.push(\`
-      \<article class="history-item" data-id="${escapeHtml(item.id)}">
-        \<div>
-          \<div class="history-meta">
-            \<span class="type-badge">${item.type}\</span>
-            \<span>${escapeHtml(item.deviceName)}\</span>
-            \<span>·\</span>
-            \<span>${formatTime(item.createdAt)}\</span>
-            ${item.burnAfterSync ? '\<span>· burn\</span>' : ''}
-          \</div>
-          \<div class="history-content">
+    html.push(`
+      <article class="history-item" data-id="${escapeHtml(item.id)}">
+        <div>
+          <div class="history-meta">
+            <span class="type-badge">${item.type}</span>
+            <span>${escapeHtml(item.deviceName)}</span>
+            <span>·</span>
+            <span>${formatTime(item.createdAt)}</span>
+            ${item.burnAfterSync ? '<span>· burn</span>' : ''}
+          </div>
+
+          <div class="history-content">
             ${escapeHtml(text)}
-          \</div>
-        \</div>
-        \<div class="history-actions">
-          \<button class="small-btn copy-old" data-id="${escapeHtml(item.id)}">
+          </div>
+        </div>
+
+        <div class="history-actions">
+          <button class="small-btn copy-old" data-id="${escapeHtml(item.id)}">
             Copy
-          \</button>
-          \<button class="small-btn delete-old" data-id="${escapeHtml(item.id)}">
+          </button>
+
+          <button class="small-btn delete-old" data-id="${escapeHtml(item.id)}">
             Delete
-          \</button>
-        \</div>
-      \</article>
-    \`);
+          </button>
+        </div>
+      </article>
+    `);
   }
 
   $('historyList').innerHTML = html.join('');
@@ -264,7 +269,7 @@ $('syncBtn').onclick = async () => {
 
   const msg = $('syncMessage');
   msg.classList.remove('hidden');
-  msg.textContent = 'Reading clipboard…';
+  msg.textContent = 'Reading clipboard...';
 
   try {
     if (!navigator.clipboard?.readText) {
@@ -280,7 +285,8 @@ $('syncBtn').onclick = async () => {
     }
 
     const encrypted = await encryptText(text);
-    const type = /^(https?:**\\/\\/**|ww&#x77;**\\.**)/i.test(text.trim())
+
+    const type = /^(https?:\/\/|www\.)/i.test(text.trim())
       ? 'link'
       : 'text';
 
@@ -297,7 +303,10 @@ $('syncBtn').onclick = async () => {
       if (res?.ok) {
         msg.textContent = 'Synced securely ✓';
         toast('Clipboard synced');
-        setTimeout(() => msg.classList.add('hidden'), 1600);
+
+        setTimeout(() => {
+          msg.classList.add('hidden');
+        }, 1600);
       } else {
         msg.textContent = res?.error || 'Sync failed.';
       }
@@ -312,14 +321,14 @@ $('syncBtn').onclick = async () => {
 };
 
 $('qrBtn').onclick = async () => {
-  const url = \`${location.origin}/?join=${encodeURIComponent(state.code)}\`;
+  const url = `${location.origin}/?join=${encodeURIComponent(state.code)}`;
 
   $('qrCodeText').textContent = state.code;
   $('qrCanvas').innerHTML = '';
 
   try {
     const res = await fetch(
-      \`https://uniclip-backend.onrender.com/qr?data=${encodeURIComponent(url)}\`
+      `https://uniclip-backend.onrender.com/qr?data=${encodeURIComponent(url)}`
     );
 
     if (!res.ok) {
@@ -328,6 +337,7 @@ $('qrBtn').onclick = async () => {
 
     const blob = await res.blob();
     const img = document.createElement('img');
+
     img.src = URL.createObjectURL(blob);
     $('qrCanvas').appendChild(img);
   } catch {
@@ -347,7 +357,7 @@ document.querySelector('.modal-backdrop').onclick = () => {
 };
 
 $('shareBtn').onclick = async () => {
-  const url = \`${location.origin}/?join=${encodeURIComponent(state.code)}\`;
+  const url = `${location.origin}/?join=${encodeURIComponent(state.code)}`;
 
   try {
     await navigator.share({
