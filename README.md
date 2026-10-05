@@ -6,8 +6,8 @@ Each session uses a temporary 6-character pairing code, allowing devices to conn
 
 ## Live Demo
 
-- **Frontend:** [Live Demo](https://uniclip-pi.vercel.app/)
-- **Backend:** [Backend API](https://uniclip-backend.onrender.com/)
+- **Frontend:** https://uniclip-pi.vercel.app
+- **Backend:** https://uniclip-backend.onrender.com
 
 ---
 
