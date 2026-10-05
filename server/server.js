@@ -1,5 +1,6 @@
 const express = require('express');
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -83,13 +84,17 @@ function ensureCertificate() {
 
 ensureCertificate();
 
-const server = https.createServer(
-  {
-    key: fs.readFileSync(KEY_FILE),
-    cert: fs.readFileSync(CERT_FILE)
-  },
-  app
-);
+const isRender = Boolean(process.env.RENDER);
+
+const server = isRender
+  ? http.createServer(app)
+  : https.createServer(
+      {
+        key: fs.readFileSync(KEY_FILE),
+        cert: fs.readFileSync(CERT_FILE)
+      },
+      app
+    );
 
 const io = new Server(server, {
   cors: {
@@ -143,6 +148,10 @@ app.get('*', (_req, res) => {
 setupSocket(io);
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`UniClip running on https://localhost:${PORT}`);
-  console.log(`Phone/other devices: https://${LAN_IP}:${PORT}`);
+  if (isRender) {
+    console.log(`UniClip running on http://0.0.0.0:${PORT}`);
+  } else {
+    console.log(`UniClip running on https://localhost:${PORT}`);
+    console.log(`Phone/other devices: https://${LAN_IP}:${PORT}`);
+  }
 });
