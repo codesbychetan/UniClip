@@ -1,6 +1,3 @@
-// All real-time UniClip events are handled here.
-// The server only relays encrypted clipboard payloads.
-// Session and clipboard logic stays outside server.js for easier reading.
 const crypto = require('crypto');
 const { newSession, touch, publicDevices } = require('./models/Session');
 const {

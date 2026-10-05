@@ -1,6 +1,3 @@
-// Small UI helpers used across UniClip.
-// These functions only update the existing page elements.
-// The original messages and behavior are kept.
 function toast(msg) {
   const t = $('toast');
   t.textContent = msg;

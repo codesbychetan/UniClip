@@ -1,63 +1,87 @@
-# UniClip
+# UniClip – Real-Time Cross-Device Clipboard Sync
 
-Real-time cross-device clipboard synchronization without accounts.
+A minimal and secure web application that allows users to **synchronize text and links between multiple devices in real time** without creating an account.
+
+Each session uses a temporary 6-character pairing code, allowing devices to connect quickly and share clipboard content securely.
+
+## Live Demo
+
+- **Frontend:** [Live Demo](https://uniclip-pi.vercel.app/)
+- **Backend:** [Backend API](https://uniclip-backend.onrender.com/)
+
+---
 
 ## Features
-- Temporary sessions with 6-character pairing codes
-- QR pairing
-- Connected device list
-- Explicit Clipboard API sync action
-- Text + link detection
-- Real-time WebSocket synchronization with Socket.IO
-- Ordered, duplicate-safe clipboard history
-- Copy old entries back to the clipboard
-- Delete one / clear all history
-- Automatic reconnection
-- End-to-end encryption using Web Crypto API (server stores/transmits ciphertext only)
-- Burn After Sync option
-- Graceful clipboard permission/error handling
-- Responsive UI for desktop and mobile
 
-## Run locally
+### Core
 
-Requirements: Node.js 18+
+- **Real-Time Clipboard Sync** — Synchronize copied text and links between connected devices.
+- **No Login Needed** — Create or join a session without creating an account.
+- **Temporary Sessions** — Each session uses a 6-character pairing code.
+- **QR Pairing** — Join a session by scanning the generated QR code.
+- **Connected Devices** — View all devices currently connected to the session.
+- **Explicit Sync Action** — Clipboard content is synced only when the user clicks **Sync Clipboard**.
+- **Text & Link Detection** — Automatically detects whether the copied content is text or a link.
+- **Clipboard History** — View previously synchronized clipboard items.
+- **Copy Previous Items** — Copy any previous synced item back to the clipboard.
+- **Delete & Clear History** — Delete individual items or clear the complete session history.
+- **Automatic Reconnection** — Reconnects automatically if the connection is temporarily lost.
 
-```bash
-npm install
-npm start
-```
+### Security
 
-Open http://localhost:3000 in two browser tabs/devices.
+- **End-to-End Encryption** — Clipboard content is encrypted in the browser before being sent to the server.
+- **Web Crypto API** — Uses AES-GCM encryption for clipboard data.
+- **Ciphertext Only on Server** — The server does not receive or store plaintext clipboard content.
+- **Burn After Sync** — Optionally remove clipboard content after it is copied on another device.
 
-1. On device A, click **Create session**.
-2. Share the pairing code or QR with device B.
-3. On device B, enter the code and join.
-4. Give each browser a different device name.
-5. Click **Sync Clipboard** after copying text/link.
+---
 
-For two physical devices on the same Wi-Fi, run the server on your laptop and open:
-`http://YOUR-LAN-IP:3000`
+## Tech Stack
 
-Clipboard access generally requires a secure context (`https://`) or localhost. For deployed use, host the app behind HTTPS.
+**Frontend:**
 
-## Project structure
+- HTML
+- CSS
+- JavaScript
+- Web Crypto API
+- Clipboard API
+- Socket.IO Client
 
-- `server.js` - keeps the original `npm start` command working
-- `server/server.js` - Express, HTTPS, QR route and server startup
-- `server/socket.js` - Socket.IO session and real-time events
-- `server/models/Session.js` - session data helpers
-- `server/models/ClipboardItem.js` - encrypted clipboard item shape
-- `server/routes/clipboardRoutes.js` - clipboard history helpers
-- `public/index.html` - application shell
-- `public/styles.css` - responsive styling
-- `client/js/state.js` - client state and Socket.IO connection
-- `client/js/ui.js` - small UI helpers
-- `client/js/crypto.js` - Web Crypto helpers
-- `client/js/main.js` - main client actions and events
-- `package.json` - dependencies and scripts
+**Backend:**
 
-## Security note
-The server never receives plaintext clipboard content. The browser encrypts content with AES-GCM before sending it. The pairing code is used to derive the session key locally. Because the code is intentionally short for usability, do not treat it as a high-security secret; the app is designed for temporary clipboard sharing.
+- Node.js
+- Express.js
+- Socket.IO
+- HTTPS
 
-## Online deployment
-Any Node.js host supporting WebSockets can run this project. Set the start command to `npm start` and expose port `3000` (or use the platform-provided `PORT`). The included server reads `process.env.PORT`.
+**Other:**
+
+- QR Code Generation
+- AES-GCM Encryption
+- Temporary In-Memory Session Storage
+
+---
+
+## Preview
+
+> Example UI:
+
+- **Landing Page:**
+  - Enter device name.
+  - Create a new session or join an existing session.
+  - Enter a 6-character pairing code.
+
+- **Session Workspace:**
+  - View connected devices.
+  - Copy the pairing code.
+  - Generate a QR code.
+  - Sync clipboard content.
+  - Enable Burn After Sync.
+  - View clipboard history.
+  - Copy or delete previous entries.
+
+---
+
+## Video Demonstration
+
+[Watch Demo](https://drive.google.com/file/d/1ki8h8AioHx65t7NyMAFCh5pb3yGJxTqH/view?usp=sharing)

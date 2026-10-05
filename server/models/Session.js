@@ -1,6 +1,3 @@
-// A session holds connected devices and clipboard history.
-// Sessions are temporary and are removed after they expire.
-// This keeps the same in-memory session model as the original server.
 function newSession(code) {
   return {
     id: code,

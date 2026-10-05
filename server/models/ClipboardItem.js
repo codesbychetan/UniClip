@@ -1,6 +1,3 @@
-// This file keeps clipboard item creation in one place.
-// The server still stores encrypted clipboard data only.
-// The item shape matches the original server code.
 function createClipboardItem(item, device) {
   return {
     id: String(item.id).slice(0, 80),
