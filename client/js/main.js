@@ -1,6 +1,3 @@
-// Main UniClip actions and Socket.IO events.
-// This file connects the existing UI to the server.
-// The original application flow is kept.
 async function startSession(mode) {
   clearError();
 
