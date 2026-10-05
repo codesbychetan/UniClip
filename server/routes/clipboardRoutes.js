@@ -1,6 +1,3 @@
-// Clipboard history is kept in the current session.
-// These helpers only move encrypted clipboard items around.
-// Socket events call these functions from socket.js.
 const { createClipboardItem } = require('../models/ClipboardItem');
 
 function addClipboardItem(session, item, device, maxHistory) {

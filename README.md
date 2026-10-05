@@ -4,10 +4,12 @@ A minimal and secure web application that allows users to **synchronize text and
 
 Each session uses a temporary 6-character pairing code, allowing devices to connect quickly and share clipboard content securely.
 
+---
+
 ## Live Demo
 
-- **Frontend:** https://uniclip-pi.vercel.app
-- **Backend:** https://uniclip-backend.onrender.com
+- **Frontend:** [https://uniclip-pi.vercel.app](https://uniclip-pi.vercel.app)
+- **Backend:** [https://uniclip-backend.onrender.com](https://uniclip-backend.onrender.com)
 
 ---
 
@@ -52,7 +54,6 @@ Each session uses a temporary 6-character pairing code, allowing devices to conn
 - Node.js
 - Express.js
 - Socket.IO
-- HTTPS
 
 **Other:**
 

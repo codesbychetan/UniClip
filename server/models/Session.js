@@ -18,7 +18,7 @@ function publicDevices(session) {
   }));
 }
 
-module.exports = {
+module.exports = {  
   newSession,
   touch,
   publicDevices
