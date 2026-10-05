@@ -87,7 +87,7 @@ function leaveSession() {
 
 $('leaveBtn').onclick = () => history.back();
 
-window.addEventListener('popstate', () => {
+window\.addEventListener('popstate', () => {
   if (!$('workspace').classList.contains('hidden')) {
     leaveSession();
   }
@@ -140,7 +140,7 @@ socket.on('clip:add', async item => {
     await renderHistory();
 
     if (item.deviceId !== state.deviceId) {
-      toast(`New ${item.type} synced`);
+      toast(\`New ${item.type} synced\`);
     }
   }
 });
@@ -159,18 +159,18 @@ function renderDevices(devices) {
   $('deviceCount').textContent = devices.length;
 
   $('devicesList').innerHTML = devices
-    .map(d => `
-      <div class="device">
-        <span class="device-avatar">
+    .map(d => \`
+      \<div class="device">
+        \<span class="device-avatar">
           ${escapeHtml(d.name.slice(0, 1).toUpperCase())}
-        </span>
-        <span>${escapeHtml(d.name)}</span>
+        \</span>
+        \<span>${escapeHtml(d.name)}\</span>
         ${d.id === state.deviceId
-          ? '<span class="you">YOU</span>'
+          ? '\<span class="you">YOU\</span>'
           : ''}
-      </div>
-    `)
-    .join('') || '<div class="subtext">No devices connected.</div>';
+      \</div>
+    \`)
+    .join('') || '\<div class="subtext">No devices connected.\</div>';
 }
 
 async function renderHistory() {
@@ -178,7 +178,7 @@ async function renderHistory() {
     .sort((a, b) => b.createdAt - a.createdAt);
 
   $('historySubtitle').textContent =
-    `${list.length} item${list.length === 1 ? '' : 's'} · updates appear instantly`;
+    \`${list.length} item${list.length === 1 ? '' : 's'} · updates appear instantly\`;
 
   $('emptyState').classList.toggle('hidden', list.length > 0);
 
@@ -187,30 +187,30 @@ async function renderHistory() {
   for (const item of list) {
     const text = await decryptItem(item);
 
-    html.push(`
-      <article class="history-item" data-id="${escapeHtml(item.id)}">
-        <div>
-          <div class="history-meta">
-            <span class="type-badge">${item.type}</span>
-            <span>${escapeHtml(item.deviceName)}</span>
-            <span>·</span>
-            <span>${formatTime(item.createdAt)}</span>
-            ${item.burnAfterSync ? '<span>· burn</span>' : ''}
-          </div>
-          <div class="history-content">
+    html.push(\`
+      \<article class="history-item" data-id="${escapeHtml(item.id)}">
+        \<div>
+          \<div class="history-meta">
+            \<span class="type-badge">${item.type}\</span>
+            \<span>${escapeHtml(item.deviceName)}\</span>
+            \<span>·\</span>
+            \<span>${formatTime(item.createdAt)}\</span>
+            ${item.burnAfterSync ? '\<span>· burn\</span>' : ''}
+          \</div>
+          \<div class="history-content">
             ${escapeHtml(text)}
-          </div>
-        </div>
-        <div class="history-actions">
-          <button class="small-btn copy-old" data-id="${escapeHtml(item.id)}">
+          \</div>
+        \</div>
+        \<div class="history-actions">
+          \<button class="small-btn copy-old" data-id="${escapeHtml(item.id)}">
             Copy
-          </button>
-          <button class="small-btn delete-old" data-id="${escapeHtml(item.id)}">
+          \</button>
+          \<button class="small-btn delete-old" data-id="${escapeHtml(item.id)}">
             Delete
-          </button>
-        </div>
-      </article>
-    `);
+          \</button>
+        \</div>
+      \</article>
+    \`);
   }
 
   $('historyList').innerHTML = html.join('');
@@ -280,7 +280,7 @@ $('syncBtn').onclick = async () => {
     }
 
     const encrypted = await encryptText(text);
-    const type = /^(https?:\/\/|www\.)/i.test(text.trim())
+    const type = /^(https?:**\\/\\/**|ww&#x77;**\\.**)/i.test(text.trim())
       ? 'link'
       : 'text';
 
@@ -312,14 +312,14 @@ $('syncBtn').onclick = async () => {
 };
 
 $('qrBtn').onclick = async () => {
-  const url = `${location.origin}/?join=${encodeURIComponent(state.code)}`;
+  const url = \`${location.origin}/?join=${encodeURIComponent(state.code)}\`;
 
   $('qrCodeText').textContent = state.code;
   $('qrCanvas').innerHTML = '';
 
   try {
     const res = await fetch(
-      `/qr?data=${encodeURIComponent(url)}`
+      \`https://uniclip-backend.onrender.com/qr?data=${encodeURIComponent(url)}\`
     );
 
     if (!res.ok) {
@@ -347,7 +347,7 @@ document.querySelector('.modal-backdrop').onclick = () => {
 };
 
 $('shareBtn').onclick = async () => {
-  const url = `${location.origin}/?join=${encodeURIComponent(state.code)}`;
+  const url = \`${location.origin}/?join=${encodeURIComponent(state.code)}\`;
 
   try {
     await navigator.share({
