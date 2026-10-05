@@ -1,5 +1,5 @@
 const { createClipboardItem } = require('../models/ClipboardItem');
-
+// Adds encrypted item to session history
 function addClipboardItem(session, item, device, maxHistory) {
   if (
     !session ||
@@ -41,14 +41,14 @@ function addClipboardItem(session, item, device, maxHistory) {
     item: safe
   };
 }
-
+// Removes clipboard item from session history
 function deleteClipboardItem(session, id) {
   const before = session.history.length;
   session.history = session.history.filter(x => x.id !== id);
 
   return session.history.length !== before;
 }
-
+// Clears all clipboard history items
 function clearClipboard(session) {
   session.history = [];
 }

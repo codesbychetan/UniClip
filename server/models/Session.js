@@ -1,3 +1,4 @@
+// Creates new temporary session object
 function newSession(code) {
   return {
     id: code,
@@ -6,11 +7,11 @@ function newSession(code) {
     updatedAt: Date.now()
   };
 }
-
+// Updates session activity timestamp
 function touch(session) {
   session.updatedAt = Date.now();
 }
-
+// Returns safe public device information
 function publicDevices(session) {
   return [...session.devices.values()].map(d => ({
     id: d.id,

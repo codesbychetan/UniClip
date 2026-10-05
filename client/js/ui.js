@@ -1,3 +1,4 @@
+// Displays temporary notification message
 function toast(msg) {
   const t = $('toast');
   t.textContent = msg;
@@ -8,7 +9,7 @@ function toast(msg) {
     2400
   );
 }
-
+// Updates connection status indicator
 function setStatus(connected) {
   state.connected = connected;
   $('statusDot').classList.toggle('offline', !connected);
@@ -16,21 +17,21 @@ function setStatus(connected) {
     ? 'Connected'
     : 'Reconnecting…';
 }
-
+// Displays landing page error message
 function error(msg) {
   $('landingError').textContent = msg;
   $('landingError').classList.remove('hidden');
 }
-
+// Hides current landing page error
 function clearError() {
   $('landingError').classList.add('hidden');
 }
-
+// Switches from landing to workspace
 function showWorkspace() {
   $('landing').classList.add('hidden');
   $('workspace').classList.remove('hidden');
 }
-
+// Prevents unsafe HTML content rendering
 function escapeHtml(s) {
   return String(s).replace(
     /[&<>'"]/g,
@@ -43,7 +44,7 @@ function escapeHtml(s) {
     }[c])
   );
 }
-
+// Formats timestamps for display
 function formatTime(ts) {
   return new Intl.DateTimeFormat([], {
     hour: 'numeric',

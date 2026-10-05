@@ -1,9 +1,9 @@
-const express = require('express');
-const http = require('http');
-const path = require('path');
-const { Server } = require('socket.io');
-const QRCode = require('qrcode');
-const setupSocket = require('./socket');
+const express = require('express'); // Creates main Express application instance
+const http = require('http'); // Creates HTTP server for Socket.IO
+const path = require('path'); // Provides filesystem path utilities
+const { Server } = require('socket.io'); // Imports Socket.IO server functionality
+const QRCode = require('qrcode'); // Generates QR codes for sessions
+const setupSocket = require('./socket'); // Imports socket event setup logic
 
 const app = express();
 
@@ -15,7 +15,7 @@ const io = new Server(server, {
     credentials: false
   }
 });
-
+// Defines server port from environment
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, '..', 'public')));

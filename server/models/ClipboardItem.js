@@ -1,3 +1,4 @@
+// Creates standardized clipboard item object
 function createClipboardItem(item, device) {
   return {
     id: String(item.id).slice(0, 80),

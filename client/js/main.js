@@ -1,3 +1,4 @@
+// Creates or joins a session
 async function startSession(mode) {
   clearError();
 
@@ -74,7 +75,7 @@ $('copyCodeBtn').onclick = async () => {
   await navigator.clipboard.writeText(state.code);
   toast('Pairing code copied');
 };
-
+// Resets local session state
 function leaveSession() {
   state.code = null;
   state.key = null;
@@ -94,7 +95,7 @@ window.addEventListener('popstate', () => {
     leaveSession();
   }
 });
-
+// Restores session after socket reconnects
 socket.on('connect', () => {
   setStatus(true);
 
@@ -120,7 +121,7 @@ socket.on('connect', () => {
 });
 
 socket.on('disconnect', () => setStatus(false));
-
+// Loads session history and devices
 socket.on('session:state', async data => {
   state.code = data.code;
   $('sessionCode').textContent = data.code;
@@ -135,7 +136,7 @@ socket.on('session:state', async data => {
 });
 
 socket.on('devices:update', renderDevices);
-
+// Adds newly synchronized clipboard items
 socket.on('clip:add', async item => {
   if (!state.history.has(item.id)) {
     state.history.set(item.id, item);
@@ -174,7 +175,7 @@ function renderDevices(devices) {
     `)
     .join('') || '<div class="subtext">No devices connected.</div>';
 }
-
+// Renders decrypted clipboard history items
 async function renderHistory() {
   const list = [...state.history.values()]
     .sort((a, b) => b.createdAt - a.createdAt);
@@ -260,7 +261,7 @@ $('clearBtn').onclick = () => {
     socket.emit('clip:clear');
   }
 };
-
+// Encrypts and synchronizes clipboard content
 $('syncBtn').onclick = async () => {
   if (!state.code) return;
 
@@ -319,7 +320,7 @@ $('syncBtn').onclick = async () => {
     btn.disabled = false;
   }
 };
-
+// Generates QR code for session
 $('qrBtn').onclick = async () => {
   const url = `${location.origin}/?join=${encodeURIComponent(state.code)}`;
 
@@ -355,7 +356,7 @@ $('closeQr').onclick = () => {
 document.querySelector('.modal-backdrop').onclick = () => {
   $('qrModal').classList.add('hidden');
 };
-
+// Shares the current session link
 $('shareBtn').onclick = async () => {
   const url = `${location.origin}/?join=${encodeURIComponent(state.code)}`;
 

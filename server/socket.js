@@ -9,9 +9,11 @@ const {
 const MAX_HISTORY = 100;
 const SESSION_TTL_MS = 30 * 60 * 1000;
 
+// Configures all real-time socket events
 function setupSocket(io) {
-  const sessions = new Map();
+  const sessions = new Map();// Stores active sessions in server memory
 
+// Generates unique session identification code
   function makeCode() {
     const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let code = '';
@@ -22,7 +24,7 @@ function setupSocket(io) {
 
     return code;
   }
-
+// Sanitizes and limits device names
   function cleanName(name) {
     return String(name || 'Device').trim().slice(0, 32) || 'Device';
   }
@@ -33,7 +35,7 @@ function setupSocket(io) {
       publicDevices(session)
     );
   }
-
+// Sends current session state
   function sendState(socket, session) {
     socket.emit('session:state', {
       code: session.id,
@@ -59,7 +61,7 @@ function setupSocket(io) {
       session.updatedAt = Date.now();
     }
   }
-
+// Handles incoming client socket connections
   io.on('connection', socket => {
     socket.on(
       'session:create',
@@ -216,7 +218,7 @@ function setupSocket(io) {
 
     socket.on('disconnect', () => removeSocket(socket));
   });
-
+// Periodically removes expired inactive sessions
   setInterval(() => {
     const now = Date.now();
 

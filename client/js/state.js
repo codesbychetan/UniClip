@@ -7,7 +7,7 @@ const socket = io('https://uniclip-backend.onrender.com',{
 });
 
 const $ = id => document.getElementById(id);
-
+// Stores shared application state
 const state = {
   code: null,
   deviceId: null,
@@ -16,7 +16,7 @@ const state = {
   history: new Map(),
   connected: false
 };
-
+// Generates unique identifier for device
 function makeId() {
   if (crypto.randomUUID) {
     return crypto.randomUUID();
@@ -40,9 +40,9 @@ function makeId() {
     Math.random().toString(36).slice(2) + '-' +
     Math.random().toString(36).slice(2);
 }
-
+// Restores or creates persistent device identifier
 state.deviceId =
   localStorage.getItem('uniclip-device-id') || makeId();
-
+// Clears device name input initially
 localStorage.setItem('uniclip-device-id', state.deviceId);
 $('deviceName').value = '';

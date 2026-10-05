@@ -1,3 +1,4 @@
+// Derives encryption key from session code
 async function deriveKey(code, saltB64) {
   const enc = new TextEncoder();
   const base = await crypto.subtle.importKey(
@@ -24,7 +25,7 @@ async function deriveKey(code, saltB64) {
     ['encrypt', 'decrypt']
   );
 }
-
+// Encodes bytes into Base64 format
 function toB64(buf) {
   const bytes = new Uint8Array(buf);
   let str = '';
@@ -35,7 +36,7 @@ function toB64(buf) {
 
   return btoa(str);
 }
-
+// Decodes Base64 back into bytes
 function fromB64(s) {
   const bin = atob(s);
   const out = new Uint8Array(bin.length);
@@ -46,7 +47,7 @@ function fromB64(s) {
 
   return out;
 }
-
+// Encrypts clipboard text using AES-GCM
 async function encryptText(text) {
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -66,7 +67,7 @@ async function encryptText(text) {
     salt: toB64(salt)
   };
 }
-
+// Decrypts clipboard text using AES-GCM
 async function decryptItem(item) {
   try {
     const key = await deriveKey(state.code, item.salt);
